@@ -1,12 +1,13 @@
 import { useState } from "react";
-import { createFileRoute, useNavigate, notFound } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { ArrowLeft, Mail, MapPin, Phone, User, Upload, FileText, CheckCircle2 } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useApp } from "@/context/AppContext";
 import { FormField } from "@/components/ui/form-field";
 import { PrimaryButton } from "@/components/ui/primary-button";
+import { toast } from "sonner";
 
-export const Route = createFileRoute("/jobs/$id/apply")({
+export const Route = createFileRoute("/jobs/$id_/apply")({
   head: () => ({
     meta: [{ title: "Apply — JobBoard" }],
   }),
@@ -27,14 +28,20 @@ function ApplicationFormPage() {
   const [note, setNote] = useState("");
   const [loading, setLoading] = useState(false);
 
-  if (!job) throw notFound();
-
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!name.trim() || !email.trim() || !phone.trim()) {
+      toast.error("Please fill in all required fields");
+      return;
+    }
+    if (!resumeName) {
+      toast.error("Please upload your resume");
+      return;
+    }
     setLoading(true);
     setTimeout(() => {
       submitApplication({
-        jobId: job!.id,
+        jobId: job?.id ?? id,
         userId: user?.id ?? "user_demo",
         applicantName: name,
         applicantEmail: email,
@@ -49,7 +56,7 @@ function ApplicationFormPage() {
     <div className="min-h-screen bg-background pb-28">
       <div className="mx-auto max-w-lg">
         <header className="sticky top-0 z-30 flex items-center gap-3 border-b border-border bg-background/90 px-5 py-3 backdrop-blur">
-          <Link to="/jobs/$id" params={{ id: job.id }} className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-surface">
+          <Link to="/jobs/$id" params={{ id }} className="flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-surface">
             <ArrowLeft className="h-5 w-5" />
           </Link>
           <h1 className="flex-1 text-center font-display text-base font-bold">Application Form</h1>
@@ -59,12 +66,16 @@ function ApplicationFormPage() {
         <div className="px-5 pt-5">
           <div className="rounded-2xl border border-border bg-surface p-4">
             <p className="text-xs uppercase tracking-wide text-muted-foreground">Applying to</p>
-            <p className="font-display text-base font-bold">{job.title}</p>
-            <p className="text-xs text-muted-foreground">{job.company}</p>
+            <p className="font-display text-base font-bold">{job?.title ?? "General Application"}</p>
+            <p className="text-xs text-muted-foreground">{job?.company ?? "Talent Hub"}</p>
+            <div className="mt-3 h-2 overflow-hidden rounded-full bg-muted">
+              <div className="h-full w-1/3 rounded-full bg-primary" />
+            </div>
+            <p className="mt-1 text-[11px] text-muted-foreground">Step 1 of 3: Personal information</p>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="px-5 pt-6 space-y-7">
+        <form onSubmit={handleSubmit} className="px-5 pt-6 space-y-7 pb-24">
           <Section title="Personal Information">
             <FormField label="Full Name" icon={<User className="h-4 w-4" />} value={name} onChange={(e) => setName(e.target.value)} required />
             <FormField label="Email" type="email" icon={<Mail className="h-4 w-4" />} value={email} onChange={(e) => setEmail(e.target.value)} required />

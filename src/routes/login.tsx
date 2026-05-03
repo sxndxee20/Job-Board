@@ -6,6 +6,7 @@ import { FormField, PasswordInput } from "@/components/ui/form-field";
 import { PrimaryButton } from "@/components/ui/primary-button";
 import { RoleToggle } from "@/components/ui/role-toggle";
 import { useApp, type Role } from "@/context/AppContext";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/login")({
   head: () => ({
@@ -32,7 +33,10 @@ function LoginPage() {
     if (!email.includes("@")) errs.email = "Enter a valid email";
     if (password.length < 6) errs.password = "Password must be at least 6 characters";
     setErrors(errs);
-    if (Object.keys(errs).length) return;
+    if (Object.keys(errs).length) {
+      toast.error("Please fix the errors before continuing");
+      return;
+    }
     setLoading(true);
     setTimeout(() => {
       login(email, password, role);

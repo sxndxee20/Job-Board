@@ -11,18 +11,29 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
 import { Route as ProfileRouteImport } from './routes/profile'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
 import { Route as ChooseRoleRouteImport } from './routes/choose-role'
+import { Route as ApplyRouteImport } from './routes/apply'
 import { Route as ApplicationsRouteImport } from './routes/applications'
 import { Route as ApplicationSuccessRouteImport } from './routes/application-success'
+import { Route as AnalyticsRouteImport } from './routes/analytics'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as MessagesIndexRouteImport } from './routes/messages.index'
 import { Route as JobsIndexRouteImport } from './routes/jobs.index'
+import { Route as AssessmentsIndexRouteImport } from './routes/assessments.index'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
+import { Route as UpskillIdRouteImport } from './routes/upskill.$id'
+import { Route as MessagesIdRouteImport } from './routes/messages.$id'
 import { Route as JobsIdRouteImport } from './routes/jobs.$id'
+import { Route as AssessmentsIdRouteImport } from './routes/assessments.$id'
+import { Route as AdminProfileRouteImport } from './routes/admin.profile'
+import { Route as AdminCompanyProfileRouteImport } from './routes/admin.company-profile'
 import { Route as AdminApplicationsRouteImport } from './routes/admin.applications'
-import { Route as JobsIdApplyRouteImport } from './routes/jobs.$id.apply'
+import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
+import { Route as JobsIdApplyRouteImport } from './routes/jobs.$id_.apply'
 import { Route as AdminJobsNewRouteImport } from './routes/admin.jobs.new'
 import { Route as AdminJobsIdEditRouteImport } from './routes/admin.jobs.$id.edit'
 
@@ -34,6 +45,11 @@ const SignupRoute = SignupRouteImport.update({
 const ProfileRoute = ProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -56,6 +72,11 @@ const ChooseRoleRoute = ChooseRoleRouteImport.update({
   path: '/choose-role',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApplyRoute = ApplyRouteImport.update({
+  id: '/apply',
+  path: '/apply',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApplicationsRoute = ApplicationsRouteImport.update({
   id: '/applications',
   path: '/applications',
@@ -66,9 +87,19 @@ const ApplicationSuccessRoute = ApplicationSuccessRouteImport.update({
   path: '/application-success',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AnalyticsRoute = AnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MessagesIndexRoute = MessagesIndexRouteImport.update({
+  id: '/messages/',
+  path: '/messages/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JobsIndexRoute = JobsIndexRouteImport.update({
@@ -76,9 +107,24 @@ const JobsIndexRoute = JobsIndexRouteImport.update({
   path: '/jobs/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AssessmentsIndexRoute = AssessmentsIndexRouteImport.update({
+  id: '/assessments/',
+  path: '/assessments/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminIndexRoute = AdminIndexRouteImport.update({
   id: '/admin/',
   path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const UpskillIdRoute = UpskillIdRouteImport.update({
+  id: '/upskill/$id',
+  path: '/upskill/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MessagesIdRoute = MessagesIdRouteImport.update({
+  id: '/messages/$id',
+  path: '/messages/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const JobsIdRoute = JobsIdRouteImport.update({
@@ -86,15 +132,35 @@ const JobsIdRoute = JobsIdRouteImport.update({
   path: '/jobs/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AssessmentsIdRoute = AssessmentsIdRouteImport.update({
+  id: '/assessments/$id',
+  path: '/assessments/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminProfileRoute = AdminProfileRouteImport.update({
+  id: '/admin/profile',
+  path: '/admin/profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCompanyProfileRoute = AdminCompanyProfileRouteImport.update({
+  id: '/admin/company-profile',
+  path: '/admin/company-profile',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminApplicationsRoute = AdminApplicationsRouteImport.update({
   id: '/admin/applications',
   path: '/admin/applications',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
+  id: '/admin/analytics',
+  path: '/admin/analytics',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const JobsIdApplyRoute = JobsIdApplyRouteImport.update({
-  id: '/apply',
-  path: '/apply',
-  getParentRoute: () => JobsIdRoute,
+  id: '/jobs/$id_/apply',
+  path: '/jobs/$id/apply',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AdminJobsNewRoute = AdminJobsNewRouteImport.update({
   id: '/admin/jobs/new',
@@ -109,36 +175,58 @@ const AdminJobsIdEditRoute = AdminJobsIdEditRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/application-success': typeof ApplicationSuccessRoute
   '/applications': typeof ApplicationsRoute
+  '/apply': typeof ApplyRoute
   '/choose-role': typeof ChooseRoleRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
+  '/onboarding': typeof OnboardingRoute
   '/profile': typeof ProfileRoute
   '/signup': typeof SignupRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/applications': typeof AdminApplicationsRoute
-  '/jobs/$id': typeof JobsIdRouteWithChildren
+  '/admin/company-profile': typeof AdminCompanyProfileRoute
+  '/admin/profile': typeof AdminProfileRoute
+  '/assessments/$id': typeof AssessmentsIdRoute
+  '/jobs/$id': typeof JobsIdRoute
+  '/messages/$id': typeof MessagesIdRoute
+  '/upskill/$id': typeof UpskillIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/assessments/': typeof AssessmentsIndexRoute
   '/jobs/': typeof JobsIndexRoute
+  '/messages/': typeof MessagesIndexRoute
   '/admin/jobs/new': typeof AdminJobsNewRoute
   '/jobs/$id/apply': typeof JobsIdApplyRoute
   '/admin/jobs/$id/edit': typeof AdminJobsIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/application-success': typeof ApplicationSuccessRoute
   '/applications': typeof ApplicationsRoute
+  '/apply': typeof ApplyRoute
   '/choose-role': typeof ChooseRoleRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
+  '/onboarding': typeof OnboardingRoute
   '/profile': typeof ProfileRoute
   '/signup': typeof SignupRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/applications': typeof AdminApplicationsRoute
-  '/jobs/$id': typeof JobsIdRouteWithChildren
+  '/admin/company-profile': typeof AdminCompanyProfileRoute
+  '/admin/profile': typeof AdminProfileRoute
+  '/assessments/$id': typeof AssessmentsIdRoute
+  '/jobs/$id': typeof JobsIdRoute
+  '/messages/$id': typeof MessagesIdRoute
+  '/upskill/$id': typeof UpskillIdRoute
   '/admin': typeof AdminIndexRoute
+  '/assessments': typeof AssessmentsIndexRoute
   '/jobs': typeof JobsIndexRoute
+  '/messages': typeof MessagesIndexRoute
   '/admin/jobs/new': typeof AdminJobsNewRoute
   '/jobs/$id/apply': typeof JobsIdApplyRoute
   '/admin/jobs/$id/edit': typeof AdminJobsIdEditRoute
@@ -146,94 +234,150 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/analytics': typeof AnalyticsRoute
   '/application-success': typeof ApplicationSuccessRoute
   '/applications': typeof ApplicationsRoute
+  '/apply': typeof ApplyRoute
   '/choose-role': typeof ChooseRoleRoute
   '/forgot-password': typeof ForgotPasswordRoute
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
+  '/onboarding': typeof OnboardingRoute
   '/profile': typeof ProfileRoute
   '/signup': typeof SignupRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/applications': typeof AdminApplicationsRoute
-  '/jobs/$id': typeof JobsIdRouteWithChildren
+  '/admin/company-profile': typeof AdminCompanyProfileRoute
+  '/admin/profile': typeof AdminProfileRoute
+  '/assessments/$id': typeof AssessmentsIdRoute
+  '/jobs/$id': typeof JobsIdRoute
+  '/messages/$id': typeof MessagesIdRoute
+  '/upskill/$id': typeof UpskillIdRoute
   '/admin/': typeof AdminIndexRoute
+  '/assessments/': typeof AssessmentsIndexRoute
   '/jobs/': typeof JobsIndexRoute
+  '/messages/': typeof MessagesIndexRoute
   '/admin/jobs/new': typeof AdminJobsNewRoute
-  '/jobs/$id/apply': typeof JobsIdApplyRoute
+  '/jobs/$id_/apply': typeof JobsIdApplyRoute
   '/admin/jobs/$id/edit': typeof AdminJobsIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/analytics'
     | '/application-success'
     | '/applications'
+    | '/apply'
     | '/choose-role'
     | '/forgot-password'
     | '/home'
     | '/login'
+    | '/onboarding'
     | '/profile'
     | '/signup'
+    | '/admin/analytics'
     | '/admin/applications'
+    | '/admin/company-profile'
+    | '/admin/profile'
+    | '/assessments/$id'
     | '/jobs/$id'
+    | '/messages/$id'
+    | '/upskill/$id'
     | '/admin/'
+    | '/assessments/'
     | '/jobs/'
+    | '/messages/'
     | '/admin/jobs/new'
     | '/jobs/$id/apply'
     | '/admin/jobs/$id/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/analytics'
     | '/application-success'
     | '/applications'
+    | '/apply'
     | '/choose-role'
     | '/forgot-password'
     | '/home'
     | '/login'
+    | '/onboarding'
     | '/profile'
     | '/signup'
+    | '/admin/analytics'
     | '/admin/applications'
+    | '/admin/company-profile'
+    | '/admin/profile'
+    | '/assessments/$id'
     | '/jobs/$id'
+    | '/messages/$id'
+    | '/upskill/$id'
     | '/admin'
+    | '/assessments'
     | '/jobs'
+    | '/messages'
     | '/admin/jobs/new'
     | '/jobs/$id/apply'
     | '/admin/jobs/$id/edit'
   id:
     | '__root__'
     | '/'
+    | '/analytics'
     | '/application-success'
     | '/applications'
+    | '/apply'
     | '/choose-role'
     | '/forgot-password'
     | '/home'
     | '/login'
+    | '/onboarding'
     | '/profile'
     | '/signup'
+    | '/admin/analytics'
     | '/admin/applications'
+    | '/admin/company-profile'
+    | '/admin/profile'
+    | '/assessments/$id'
     | '/jobs/$id'
+    | '/messages/$id'
+    | '/upskill/$id'
     | '/admin/'
+    | '/assessments/'
     | '/jobs/'
+    | '/messages/'
     | '/admin/jobs/new'
-    | '/jobs/$id/apply'
+    | '/jobs/$id_/apply'
     | '/admin/jobs/$id/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AnalyticsRoute: typeof AnalyticsRoute
   ApplicationSuccessRoute: typeof ApplicationSuccessRoute
   ApplicationsRoute: typeof ApplicationsRoute
+  ApplyRoute: typeof ApplyRoute
   ChooseRoleRoute: typeof ChooseRoleRoute
   ForgotPasswordRoute: typeof ForgotPasswordRoute
   HomeRoute: typeof HomeRoute
   LoginRoute: typeof LoginRoute
+  OnboardingRoute: typeof OnboardingRoute
   ProfileRoute: typeof ProfileRoute
   SignupRoute: typeof SignupRoute
+  AdminAnalyticsRoute: typeof AdminAnalyticsRoute
   AdminApplicationsRoute: typeof AdminApplicationsRoute
-  JobsIdRoute: typeof JobsIdRouteWithChildren
+  AdminCompanyProfileRoute: typeof AdminCompanyProfileRoute
+  AdminProfileRoute: typeof AdminProfileRoute
+  AssessmentsIdRoute: typeof AssessmentsIdRoute
+  JobsIdRoute: typeof JobsIdRoute
+  MessagesIdRoute: typeof MessagesIdRoute
+  UpskillIdRoute: typeof UpskillIdRoute
   AdminIndexRoute: typeof AdminIndexRoute
+  AssessmentsIndexRoute: typeof AssessmentsIndexRoute
   JobsIndexRoute: typeof JobsIndexRoute
+  MessagesIndexRoute: typeof MessagesIndexRoute
   AdminJobsNewRoute: typeof AdminJobsNewRoute
+  JobsIdApplyRoute: typeof JobsIdApplyRoute
   AdminJobsIdEditRoute: typeof AdminJobsIdEditRoute
 }
 
@@ -251,6 +395,13 @@ declare module '@tanstack/react-router' {
       path: '/profile'
       fullPath: '/profile'
       preLoaderRoute: typeof ProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -281,6 +432,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ChooseRoleRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/apply': {
+      id: '/apply'
+      path: '/apply'
+      fullPath: '/apply'
+      preLoaderRoute: typeof ApplyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/applications': {
       id: '/applications'
       path: '/applications'
@@ -295,11 +453,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApplicationSuccessRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/analytics': {
+      id: '/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/messages/': {
+      id: '/messages/'
+      path: '/messages'
+      fullPath: '/messages/'
+      preLoaderRoute: typeof MessagesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/jobs/': {
@@ -309,11 +481,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JobsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/assessments/': {
+      id: '/assessments/'
+      path: '/assessments'
+      fullPath: '/assessments/'
+      preLoaderRoute: typeof AssessmentsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/': {
       id: '/admin/'
       path: '/admin'
       fullPath: '/admin/'
       preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/upskill/$id': {
+      id: '/upskill/$id'
+      path: '/upskill/$id'
+      fullPath: '/upskill/$id'
+      preLoaderRoute: typeof UpskillIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/messages/$id': {
+      id: '/messages/$id'
+      path: '/messages/$id'
+      fullPath: '/messages/$id'
+      preLoaderRoute: typeof MessagesIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/jobs/$id': {
@@ -323,6 +516,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof JobsIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/assessments/$id': {
+      id: '/assessments/$id'
+      path: '/assessments/$id'
+      fullPath: '/assessments/$id'
+      preLoaderRoute: typeof AssessmentsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/profile': {
+      id: '/admin/profile'
+      path: '/admin/profile'
+      fullPath: '/admin/profile'
+      preLoaderRoute: typeof AdminProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/company-profile': {
+      id: '/admin/company-profile'
+      path: '/admin/company-profile'
+      fullPath: '/admin/company-profile'
+      preLoaderRoute: typeof AdminCompanyProfileRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/applications': {
       id: '/admin/applications'
       path: '/admin/applications'
@@ -330,12 +544,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminApplicationsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/jobs/$id/apply': {
-      id: '/jobs/$id/apply'
-      path: '/apply'
+    '/admin/analytics': {
+      id: '/admin/analytics'
+      path: '/admin/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminAnalyticsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/jobs/$id_/apply': {
+      id: '/jobs/$id_/apply'
+      path: '/jobs/$id/apply'
       fullPath: '/jobs/$id/apply'
       preLoaderRoute: typeof JobsIdApplyRouteImport
-      parentRoute: typeof JobsIdRoute
+      parentRoute: typeof rootRouteImport
     }
     '/admin/jobs/new': {
       id: '/admin/jobs/new'
@@ -354,32 +575,33 @@ declare module '@tanstack/react-router' {
   }
 }
 
-interface JobsIdRouteChildren {
-  JobsIdApplyRoute: typeof JobsIdApplyRoute
-}
-
-const JobsIdRouteChildren: JobsIdRouteChildren = {
-  JobsIdApplyRoute: JobsIdApplyRoute,
-}
-
-const JobsIdRouteWithChildren =
-  JobsIdRoute._addFileChildren(JobsIdRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AnalyticsRoute: AnalyticsRoute,
   ApplicationSuccessRoute: ApplicationSuccessRoute,
   ApplicationsRoute: ApplicationsRoute,
+  ApplyRoute: ApplyRoute,
   ChooseRoleRoute: ChooseRoleRoute,
   ForgotPasswordRoute: ForgotPasswordRoute,
   HomeRoute: HomeRoute,
   LoginRoute: LoginRoute,
+  OnboardingRoute: OnboardingRoute,
   ProfileRoute: ProfileRoute,
   SignupRoute: SignupRoute,
+  AdminAnalyticsRoute: AdminAnalyticsRoute,
   AdminApplicationsRoute: AdminApplicationsRoute,
-  JobsIdRoute: JobsIdRouteWithChildren,
+  AdminCompanyProfileRoute: AdminCompanyProfileRoute,
+  AdminProfileRoute: AdminProfileRoute,
+  AssessmentsIdRoute: AssessmentsIdRoute,
+  JobsIdRoute: JobsIdRoute,
+  MessagesIdRoute: MessagesIdRoute,
+  UpskillIdRoute: UpskillIdRoute,
   AdminIndexRoute: AdminIndexRoute,
+  AssessmentsIndexRoute: AssessmentsIndexRoute,
   JobsIndexRoute: JobsIndexRoute,
+  MessagesIndexRoute: MessagesIndexRoute,
   AdminJobsNewRoute: AdminJobsNewRoute,
+  JobsIdApplyRoute: JobsIdApplyRoute,
   AdminJobsIdEditRoute: AdminJobsIdEditRoute,
 }
 export const routeTree = rootRouteImport

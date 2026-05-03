@@ -1,6 +1,6 @@
 export type JobType = "Remote" | "Onsite" | "Hybrid";
 export type JobSchedule = "Full-time" | "Part-time" | "Contract";
-export type AppStatus = "Applied" | "In Review" | "Interview" | "Offered" | "Rejected";
+export type AppStatus = "Applied" | "In Review" | "Interview" | "Offered" | "Rejected" | "Withdrawn";
 
 export interface Job {
   id: string;
@@ -22,6 +22,7 @@ export interface Job {
   benefits: string[];
   about: string;
   status: "active" | "closed" | "draft";
+  customQuestions?: string[];
 }
 
 export interface Application {
@@ -34,6 +35,22 @@ export interface Application {
   applicantEmail: string;
   resume: string;
   coverNote?: string;
+  interviewAt?: string;
+  offerDecision?: "pending" | "accepted" | "declined";
+  adminNote?: string;
+  badges?: string[];
+  matchScore?: number;
+  teamNotes?: { author: string; text: string; date: string }[];
+  bgCheckStatus?: "pending" | "cleared" | "failed";
+  offerGenerated?: boolean;
+}
+
+export interface Message {
+  id: string;
+  applicationId: string;
+  senderId: string;
+  text: string;
+  sentAt: string;
 }
 
 export const categories = [
@@ -301,6 +318,7 @@ export const initialApplications: Application[] = [
     applicantName: "Maya Chen",
     applicantEmail: "maya@example.com",
     resume: "Maya_Chen_Resume.pdf",
+    matchScore: 92,
   },
   {
     id: "app_102",
@@ -311,6 +329,7 @@ export const initialApplications: Application[] = [
     applicantName: "Diego Alvarez",
     applicantEmail: "diego@example.com",
     resume: "Diego_Alvarez_Resume.pdf",
+    matchScore: 78,
   },
   {
     id: "app_103",
@@ -321,6 +340,26 @@ export const initialApplications: Application[] = [
     applicantName: "Priya Patel",
     applicantEmail: "priya@example.com",
     resume: "Priya_Patel_Resume.pdf",
+    badges: ["React Development", "UI/UX Design"],
+    matchScore: 98,
+    teamNotes: [{ author: "CTO", text: "Strong frontend skills. Let's fast track.", date: new Date().toISOString() }],
+  },
+];
+
+export const initialMessages: Message[] = [
+  {
+    id: "msg_1",
+    applicationId: "app_002",
+    senderId: "admin_demo",
+    text: "Hi John! We loved your profile and would like to schedule an interview.",
+    sentAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000).toISOString(),
+  },
+  {
+    id: "msg_2",
+    applicationId: "app_002",
+    senderId: "user_demo",
+    text: "Thank you! I am available anytime next Tuesday or Wednesday.",
+    sentAt: new Date(Date.now() - 1.8 * 24 * 60 * 60 * 1000).toISOString(),
   },
 ];
 

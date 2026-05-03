@@ -5,8 +5,10 @@ import { AdminLayout } from "@/components/layout/AdminLayout";
 import { useApp } from "@/context/AppContext";
 import { FormField } from "@/components/ui/form-field";
 import { PrimaryButton, GhostButton } from "@/components/ui/primary-button";
+import { Switch } from "@/components/ui/switch";
 import { categories, type Job, type JobType, type JobSchedule } from "@/data/mockData";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/jobs/new")({
   head: () => ({
@@ -35,10 +37,15 @@ export function PostJobPage({ mode }: { mode: "new" | "edit" }) {
   const [description, setDescription] = useState(editing?.description ?? "");
   const [responsibilities, setResponsibilities] = useState<string[]>(editing?.responsibilities ?? [""]);
   const [requirements, setRequirements] = useState<string[]>(editing?.requirements ?? [""]);
+  const [customQuestions, setCustomQuestions] = useState<string[]>(editing?.customQuestions ?? [""]);
   const [active, setActive] = useState(editing?.status !== "draft");
   const [deadline, setDeadline] = useState("");
 
   function save(status: "active" | "draft") {
+    if (!title.trim() || !company.trim()) {
+      toast.error("Job title and company name are required");
+      return;
+    }
     const cat = categories.find(c => c.name === category) ?? categories[0];
     const job: Job = {
       id: editing?.id ?? `job_${Date.now()}`,
@@ -54,10 +61,12 @@ export function PostJobPage({ mode }: { mode: "new" | "edit" }) {
       skills: editing?.skills ?? [],
       benefits: editing?.benefits ?? [],
       about: editing?.about ?? `${company} is hiring for ${title}.`,
+      customQuestions: customQuestions.filter(Boolean),
       status,
     };
     if (editing) updateJob(editing.id, job);
     else addJob(job);
+    toast.success(status === "active" ? (editing ? "Job updated successfully!" : "Job posted successfully! 🎉") : "Draft saved");
     navigate({ to: "/admin" });
   }
 
@@ -70,7 +79,7 @@ export function PostJobPage({ mode }: { mode: "new" | "edit" }) {
         <h1 className="font-display text-2xl font-bold">{editing ? "Edit Job" : "Post New Job"}</h1>
       </header>
 
-      <form onSubmit={(e) => { e.preventDefault(); save(active ? "active" : "draft"); }} className="mt-6 space-y-6 px-6 pb-32">
+      <form onSubmit={(e) => { e.preventDefault(); save(active ? "active" : "draft"); }} className="mt-6 space-y-6 px-6 pb-44 lg:pb-32">
         <Card title="Job Info">
           <FormField label="Job Title" value={title} onChange={(e) => setTitle(e.target.value)} required />
           <FormField label="Company Name" value={company} onChange={(e) => setCompany(e.target.value)} required />
@@ -140,30 +149,23 @@ export function PostJobPage({ mode }: { mode: "new" | "edit" }) {
           <BulletList label="Requirements" items={requirements} setItems={setRequirements} />
         </Card>
 
+        <Card title="Pre-Screening Questionnaires">
+          <p className="text-sm text-muted-foreground mb-4">Add mandatory questions candidates must answer before submitting their application.</p>
+          <BulletList label="Custom Questions" items={customQuestions} setItems={setCustomQuestions} />
+        </Card>
+
         <Card title="Status">
           <label className="flex items-center justify-between rounded-xl bg-muted px-4 py-3">
             <span className="text-sm font-semibold">Publish status</span>
-            <button
-              type="button"
-              onClick={() => setActive(!active)}
-              className={cn(
-                "relative h-6 w-11 rounded-full transition-colors",
-                active ? "bg-primary" : "bg-border"
-              )}
-            >
-              <span className={cn(
-                "absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-transform",
-                active ? "translate-x-5" : "translate-x-0.5"
-              )} />
-            </button>
+            <Switch checked={active} onCheckedChange={setActive} />
           </label>
           <FormField label="Application Deadline" type="date" value={deadline} onChange={(e) => setDeadline(e.target.value)} />
         </Card>
 
-        <div className="fixed bottom-0 left-0 right-0 z-40 border-t border-border bg-surface/95 px-6 py-3 backdrop-blur lg:left-64">
+        <div className="fixed bottom-16 left-0 right-0 z-40 border-t border-border bg-surface/95 px-6 py-3 backdrop-blur lg:bottom-0 lg:left-64">
           <div className="mx-auto flex max-w-6xl gap-3">
             <GhostButton type="button" onClick={() => save("draft")} className="flex-1">Save as Draft</GhostButton>
-            <PrimaryButton type="submit" className="flex-1">{editing ? "Save Changes" : "Publish Job"}</PrimaryButton>
+            <PrimaryButton type="submit" className="flex-1">{editing ? "Save Changes" : "Post Job"}</PrimaryButton>
           </div>
         </div>
       </form>

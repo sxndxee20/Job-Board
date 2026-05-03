@@ -7,6 +7,7 @@ import { PrimaryButton } from "@/components/ui/primary-button";
 import { RoleToggle } from "@/components/ui/role-toggle";
 import { useApp, type Role } from "@/context/AppContext";
 import { cn } from "@/lib/utils";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/signup")({
   head: () => ({
@@ -52,11 +53,15 @@ function SignUpPage() {
     if (pw !== pw2) errs.pw2 = "Passwords do not match";
     if (!agree) errs.agree = "You must accept the terms";
     setErrors(errs);
-    if (Object.keys(errs).length) return;
+    if (Object.keys(errs).length) {
+      toast.error("Please fix the errors before continuing");
+      return;
+    }
     setLoading(true);
     setTimeout(() => {
       signup({ name, email, password: pw, role });
-      navigate({ to: role === "admin" ? "/admin" : "/home" });
+      toast.success("Account created! Welcome aboard 🎉");
+      navigate({ to: role === "admin" ? "/admin" : "/onboarding" });
     }, 600);
   }
 

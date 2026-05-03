@@ -4,6 +4,7 @@ import { Mail, Lock } from "lucide-react";
 import { BackButton } from "@/components/shared/BackButton";
 import { FormField } from "@/components/ui/form-field";
 import { PrimaryButton } from "@/components/ui/primary-button";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/forgot-password")({
   head: () => ({
@@ -41,7 +42,7 @@ function ForgotPasswordPage() {
             </p>
 
             {!sent ? (
-              <form onSubmit={(e) => { e.preventDefault(); setSent(true); }} className="mt-6 space-y-4">
+              <form onSubmit={(e) => { e.preventDefault(); setSent(true); toast.success("Reset link sent! Check your inbox."); }} className="mt-6 space-y-4">
                 <FormField
                   label="Email Address"
                   type="email"

@@ -1,9 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Bell, Briefcase, Users, TrendingUp, CheckCircle2, Plus, Pencil, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { Bell, Briefcase, Users, TrendingUp, CheckCircle2, Plus, Pencil, Trash2, Eye } from "lucide-react";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import { useApp } from "@/context/AppContext";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { timeAgo } from "@/data/mockData";
+import { StyledAvatar } from "@/components/shared/StyledAvatar";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
+import { toast } from "sonner";
 
 export const Route = createFileRoute("/admin/")({
   head: () => ({
@@ -13,9 +17,10 @@ export const Route = createFileRoute("/admin/")({
 });
 
 function AdminDashboardPage() {
-  const { jobs, applications, deleteJob, user } = useApp();
+  const { jobs, applications, deleteJob, user, updateJob, addJob } = useApp();
   const today = new Date().toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" });
   const adminName = user?.name ?? "Admin";
+  const [deletingJobId, setDeletingJobId] = useState<string | null>(null);
 
   const activeJobs = jobs.filter(j => j.status === "active").length;
   const todayApps = applications.filter(a => {
@@ -28,7 +33,7 @@ function AdminDashboardPage() {
     <AdminLayout>
       <header className="flex items-center justify-between px-6 pt-8">
         <div>
-          <h1 className="font-display text-2xl font-bold">Good Morning, {adminName} 👋</h1>
+          <h1 className="font-display text-2xl font-bold">Good Morning, {adminName}</h1>
           <p className="text-sm text-muted-foreground">{today}</p>
         </div>
         <button className="relative flex h-10 w-10 items-center justify-center rounded-xl border border-border bg-surface">
@@ -36,6 +41,12 @@ function AdminDashboardPage() {
           <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-accent" />
         </button>
       </header>
+      <div className="px-6 pt-4 lg:hidden">
+        <Link to="/admin/jobs/new" className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-soft">
+          <Plus className="h-4 w-4" />
+          Post Job
+        </Link>
+      </div>
 
       <div className="mt-6 grid grid-cols-2 gap-3 px-6 lg:grid-cols-4">
         <StatCard label="Total Jobs" value={jobs.length} icon={<Briefcase className="h-4 w-4" />} color="bg-primary text-primary-foreground" trend="+12%" />
@@ -72,9 +83,7 @@ function AdminDashboardPage() {
                   <tr key={job.id} className="border-t border-border hover:bg-muted/30">
                     <td className="px-5 py-3">
                       <div className="flex items-center gap-2.5">
-                        <div className="flex h-8 w-8 items-center justify-center rounded-lg text-xs font-bold text-white" style={{ backgroundColor: job.companyColor }}>
-                          {job.company.charAt(0)}
-                        </div>
+                        <StyledAvatar seed={job.company} label={job.company} className="h-8 w-8 rounded-lg text-xs" />
                         <div>
                           <p className="font-semibold text-foreground">{job.title}</p>
                           <p className="text-xs text-muted-foreground">{job.company}</p>
@@ -92,7 +101,25 @@ function AdminDashboardPage() {
                         <Link to="/admin/jobs/$id/edit" params={{ id: job.id }} className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-primary">
                           <Pencil className="h-4 w-4" />
                         </Link>
-                        <button onClick={() => deleteJob(job.id)} className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-danger/10 hover:text-danger">
+                        <button onClick={() => {
+                          updateJob(job.id, { status: job.status === "active" ? "closed" : "active" });
+                          toast.success(job.status === "active" ? "Job listing closed" : "Job listing reopened");
+                        }} className="rounded-lg border border-border px-2 text-[10px] font-semibold text-muted-foreground hover:border-primary hover:text-primary">
+                          {job.status === "active" ? "Close" : "Reopen"}
+                        </button>
+                        <button
+                          onClick={() => {
+                            addJob({ ...job, id: `job_${Date.now()}`, title: `${job.title} (Copy)`, postedAt: new Date().toISOString(), isNew: true });
+                            toast.success("Job duplicated!");
+                          }}
+                          className="rounded-lg border border-border px-2 text-[10px] font-semibold text-muted-foreground hover:border-primary hover:text-primary"
+                        >
+                          Duplicate
+                        </button>
+                        <Link to="/admin/applications" className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-muted hover:text-primary">
+                          <Eye className="h-4 w-4" />
+                        </Link>
+                        <button onClick={() => setDeletingJobId(job.id)} className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-danger/10 hover:text-danger">
                           <Trash2 className="h-4 w-4" />
                         </button>
                       </div>
@@ -109,9 +136,7 @@ function AdminDashboardPage() {
               const apps = applications.filter(a => a.jobId === job.id).length;
               return (
                 <div key={job.id} className="flex items-center gap-3 p-4">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl text-sm font-bold text-white" style={{ backgroundColor: job.companyColor }}>
-                    {job.company.charAt(0)}
-                  </div>
+                  <StyledAvatar seed={job.company} label={job.company} className="h-10 w-10 rounded-xl text-sm" />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-semibold">{job.title}</p>
                     <div className="mt-1 flex items-center gap-2 text-xs text-muted-foreground">
@@ -128,13 +153,46 @@ function AdminDashboardPage() {
         </div>
       </div>
 
+      <div className="mt-6 px-6">
+        <Link to="/admin/jobs/new" className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground shadow-soft">
+          <Plus className="h-4 w-4" />
+          Post Job
+        </Link>
+      </div>
+
       {/* Mobile FAB */}
       <Link
         to="/admin/jobs/new"
-        className="fixed bottom-20 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-elevated transition-transform hover:scale-105 lg:hidden"
+        className="fixed bottom-24 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-elevated transition-transform hover:scale-105 lg:hidden"
       >
         <Plus className="h-6 w-6" />
       </Link>
+
+      <AlertDialog open={!!deletingJobId} onOpenChange={(open) => !open && setDeletingJobId(null)}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Job Posting?</AlertDialogTitle>
+            <AlertDialogDescription>
+              This will permanently remove this job listing and cannot be undone. Existing applications will remain in the system.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              className="bg-danger text-white hover:bg-danger/90"
+              onClick={() => {
+                if (deletingJobId) {
+                  deleteJob(deletingJobId);
+                  toast.success("Job deleted");
+                }
+                setDeletingJobId(null);
+              }}
+            >
+              Delete
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </AdminLayout>
   );
 }
