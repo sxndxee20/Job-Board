@@ -110,7 +110,7 @@ function ProfilePage() {
               <p className="font-display text-xl font-bold">{user?.name ?? "Demo User"}</p>
               <p className="text-xs text-white/70">{user?.location ?? "—"}</p>
               <span className="mt-1.5 inline-block rounded-full bg-white/15 px-2.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide backdrop-blur">
-                {user?.role === "admin" ? "Admin" : "Job Seeker"}
+                {(user?.role as string) === "admin" ? "Admin" : "Job Seeker"}
               </span>
             </div>
           </div>
