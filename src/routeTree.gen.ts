@@ -30,7 +30,6 @@ import { Route as MessagesIdRouteImport } from './routes/messages.$id'
 import { Route as JobsIdRouteImport } from './routes/jobs.$id'
 import { Route as AssessmentsIdRouteImport } from './routes/assessments.$id'
 import { Route as AdminProfileRouteImport } from './routes/admin.profile'
-import { Route as AdminCompanyProfileRouteImport } from './routes/admin.company-profile'
 import { Route as AdminApplicationsRouteImport } from './routes/admin.applications'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
 import { Route as JobsIdApplyRouteImport } from './routes/jobs.$id_.apply'
@@ -142,11 +141,6 @@ const AdminProfileRoute = AdminProfileRouteImport.update({
   path: '/admin/profile',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminCompanyProfileRoute = AdminCompanyProfileRouteImport.update({
-  id: '/admin/company-profile',
-  path: '/admin/company-profile',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AdminApplicationsRoute = AdminApplicationsRouteImport.update({
   id: '/admin/applications',
   path: '/admin/applications',
@@ -188,7 +182,6 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/applications': typeof AdminApplicationsRoute
-  '/admin/company-profile': typeof AdminCompanyProfileRoute
   '/admin/profile': typeof AdminProfileRoute
   '/assessments/$id': typeof AssessmentsIdRoute
   '/jobs/$id': typeof JobsIdRoute
@@ -217,7 +210,6 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/applications': typeof AdminApplicationsRoute
-  '/admin/company-profile': typeof AdminCompanyProfileRoute
   '/admin/profile': typeof AdminProfileRoute
   '/assessments/$id': typeof AssessmentsIdRoute
   '/jobs/$id': typeof JobsIdRoute
@@ -247,7 +239,6 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/applications': typeof AdminApplicationsRoute
-  '/admin/company-profile': typeof AdminCompanyProfileRoute
   '/admin/profile': typeof AdminProfileRoute
   '/assessments/$id': typeof AssessmentsIdRoute
   '/jobs/$id': typeof JobsIdRoute
@@ -278,7 +269,6 @@ export interface FileRouteTypes {
     | '/signup'
     | '/admin/analytics'
     | '/admin/applications'
-    | '/admin/company-profile'
     | '/admin/profile'
     | '/assessments/$id'
     | '/jobs/$id'
@@ -307,7 +297,6 @@ export interface FileRouteTypes {
     | '/signup'
     | '/admin/analytics'
     | '/admin/applications'
-    | '/admin/company-profile'
     | '/admin/profile'
     | '/assessments/$id'
     | '/jobs/$id'
@@ -336,7 +325,6 @@ export interface FileRouteTypes {
     | '/signup'
     | '/admin/analytics'
     | '/admin/applications'
-    | '/admin/company-profile'
     | '/admin/profile'
     | '/assessments/$id'
     | '/jobs/$id'
@@ -366,7 +354,6 @@ export interface RootRouteChildren {
   SignupRoute: typeof SignupRoute
   AdminAnalyticsRoute: typeof AdminAnalyticsRoute
   AdminApplicationsRoute: typeof AdminApplicationsRoute
-  AdminCompanyProfileRoute: typeof AdminCompanyProfileRoute
   AdminProfileRoute: typeof AdminProfileRoute
   AssessmentsIdRoute: typeof AssessmentsIdRoute
   JobsIdRoute: typeof JobsIdRoute
@@ -530,13 +517,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProfileRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/company-profile': {
-      id: '/admin/company-profile'
-      path: '/admin/company-profile'
-      fullPath: '/admin/company-profile'
-      preLoaderRoute: typeof AdminCompanyProfileRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/admin/applications': {
       id: '/admin/applications'
       path: '/admin/applications'
@@ -590,7 +570,6 @@ const rootRouteChildren: RootRouteChildren = {
   SignupRoute: SignupRoute,
   AdminAnalyticsRoute: AdminAnalyticsRoute,
   AdminApplicationsRoute: AdminApplicationsRoute,
-  AdminCompanyProfileRoute: AdminCompanyProfileRoute,
   AdminProfileRoute: AdminProfileRoute,
   AssessmentsIdRoute: AssessmentsIdRoute,
   JobsIdRoute: JobsIdRoute,

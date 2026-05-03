@@ -4,13 +4,13 @@ import { LayoutDashboard, Briefcase, Users, MessageCircle, BarChart3, Presentati
 import { Logo } from "@/components/shared/Logo";
 import { cn } from "@/lib/utils";
 
-const navItems: { to: "/admin" | "/admin/jobs/new" | "/admin/applications" | "/messages" | "/admin/analytics" | "/admin/company-profile"; label: string; icon: typeof LayoutDashboard; exact?: boolean }[] = [
+const navItems: { to: "/admin" | "/admin/jobs/new" | "/admin/applications" | "/messages" | "/admin/analytics" | "/admin/profile"; label: string; icon: typeof LayoutDashboard; exact?: boolean }[] = [
   { to: "/admin", label: "Dashboard", icon: LayoutDashboard, exact: true },
   { to: "/admin/analytics", label: "Analytics", icon: BarChart3 },
   { to: "/admin/applications", label: "Pipeline", icon: Users },
   { to: "/messages", label: "Messages", icon: MessageCircle },
   { to: "/admin/jobs/new", label: "Post Job", icon: Briefcase },
-  { to: "/admin/company-profile", label: "Career Page", icon: Presentation },
+  { to: "/admin/profile", label: "Admin Profile", icon: Presentation },
 ];
 
 export function AdminLayout({ children }: { children: ReactNode }) {
