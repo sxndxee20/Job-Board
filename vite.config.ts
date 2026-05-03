@@ -6,4 +6,12 @@
 // You can pass additional config via defineConfig({ vite: { ... } }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
-export default defineConfig();
+export default defineConfig({
+  vite: {
+    build: {
+      rollupOptions: {
+        // This helps ensure we get a cleaner client-side build
+      }
+    }
+  }
+});
